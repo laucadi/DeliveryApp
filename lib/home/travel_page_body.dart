@@ -169,7 +169,10 @@ class _TravelPageBodyState extends State<TravelPageBody> {
                                   ),
                                   IconAndTextWidget(
                                     icon: Icons.location_on,
-                                    text: "1,7 km",
+                                    text: healthyProduct
+                                        .healthyProductList[index]
+                                        .readyInMinutes!
+                                        .toDouble(),
                                     iconColor: Colors.lightBlue,
                                   ),
                                 ],

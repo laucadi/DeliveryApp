@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hello_world/controllers/popular_product_controller.dart';
-import 'package:flutter_hello_world/home/main_travel_app.dart';
+import 'package:flutter_hello_world/pages/food/popular_food_details.dart';
+import 'package:flutter_hello_world/pages/home/main_travel_app.dart';
 import 'package:get/get.dart';
 import 'controllers/healthy_product_controller.dart';
 import 'helper/dependencies.dart' as dep;
@@ -19,6 +20,8 @@ class MyApp extends StatelessWidget {
     Get.find<PopularProductController>().getPopularProductList();
     Get.find<HealthyProductController>().getHealthyProductList();
     return const GetMaterialApp(
-        debugShowCheckedModeBanner: false, home: MainTravelPage());
+      debugShowCheckedModeBanner: false,
+      home: PopularFoodDetail(),
+    );
   }
 }

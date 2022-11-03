@@ -8,8 +8,8 @@ import 'package:flutter_hello_world/widgets/icon_and_text_widget.dart';
 import 'package:flutter_hello_world/widgets/small_text.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import '../controllers/healthy_product_controller.dart';
-import '../controllers/popular_product_controller.dart';
+import '../../controllers/healthy_product_controller.dart';
+import '../../controllers/popular_product_controller.dart';
 
 class TravelPageBody extends StatefulWidget {
   const TravelPageBody({super.key});
@@ -64,17 +64,19 @@ class _TravelPageBodyState extends State<TravelPageBody> {
         }),
         GetBuilder<PopularProductController>(builder: (popularProducts) {
           return DotsIndicator(
-              dotsCount: popularProducts.popularProductList.isEmpty
-                  ? 1
-                  : popularProducts.popularProductList.length,
-              position: _currPageValue,
-              decorator: DotsDecorator(
-                activeColor: Color(0xff00FF4D),
-                size: const Size.square(9.0),
-                activeSize: const Size(18.0, 9.0),
-                activeShape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5.0)),
-              ));
+            dotsCount: popularProducts.popularProductList.isEmpty
+                ? 1
+                : popularProducts.popularProductList.length,
+            position: _currPageValue,
+            decorator: DotsDecorator(
+              activeColor: Color(0xff00FF4D),
+              size: const Size.square(9.0),
+              activeSize: const Size(18.0, 9.0),
+              activeShape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5.0),
+              ),
+            ),
+          );
         }),
         //puntos slider
 
@@ -241,7 +243,7 @@ class _TravelPageBodyState extends State<TravelPageBody> {
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(Dimensions.radius20),
                   color: Colors.white,
-                  boxShadow: [
+                  boxShadow: const [
                     BoxShadow(
                       color: Color(0xFFe8e8e8),
                       blurRadius: 5.0,
@@ -262,24 +264,19 @@ class _TravelPageBodyState extends State<TravelPageBody> {
                         children: [
                           Wrap(
                             children: List.generate(
-                                5,
-                                (index) => Icon(
-                                      Icons.star,
-                                      color: Colors.amberAccent,
-                                      size: 15,
-                                    )),
+                              5,
+                              (index) => const Icon(
+                                Icons.star,
+                                color: Colors.amberAccent,
+                                size: 15,
+                              ),
+                            ),
                           ),
-                          SizedBox(
-                            width: 10,
-                          ),
+                          const SizedBox(width: 10),
                           SmallText(text: "4.5"),
-                          SizedBox(
-                            width: 10,
-                          ),
+                          const SizedBox(width: 10),
                           SmallText(text: "80"),
-                          SizedBox(
-                            width: 10,
-                          ),
+                          const SizedBox(width: 10),
                           SmallText(text: "comentarios"),
                         ],
                       ),

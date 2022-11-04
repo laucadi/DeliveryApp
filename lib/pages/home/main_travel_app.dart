@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hello_world/home/travel_page_body.dart';
+import 'package:flutter_hello_world/pages/home/travel_page_body.dart';
 import 'package:flutter_hello_world/utils/dimensions.dart';
 import 'package:flutter_hello_world/widgets/big_text.dart';
 import 'package:flutter_hello_world/widgets/small_text.dart';

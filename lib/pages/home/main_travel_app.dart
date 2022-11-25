@@ -18,7 +18,7 @@ class _MainTravelPageState extends State<MainTravelPage> {
     return Scaffold(
       body: Column(
         children: [
-          //muesra el header
+          // muestra el header
           Container(
             child: Container(
               margin: const EdgeInsets.only(top: 45, bottom: 15),
@@ -65,7 +65,8 @@ class _MainTravelPageState extends State<MainTravelPage> {
           Expanded(
               child: SingleChildScrollView(
             child: TravelPageBody(),
-          )),
+          )
+          ),
         ],
       ),
     );

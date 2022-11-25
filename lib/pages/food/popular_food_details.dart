@@ -1,18 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hello_world/controllers/popular_product_controller.dart';
+import 'package:flutter_hello_world/pages/home/main_travel_app.dart';
 import 'package:flutter_hello_world/utils/dimensions.dart';
 import 'package:flutter_hello_world/widgets/app_colum.dart';
 import 'package:flutter_hello_world/widgets/app_icon.dart';
 import 'package:flutter_hello_world/widgets/expandable_text_widget.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
 import '../../widgets/big_text.dart';
 import '../../widgets/icon_and_text_widget.dart';
 import '../../widgets/small_text.dart';
 
 class PopularFoodDetail extends StatelessWidget {
-  const PopularFoodDetail({super.key});
+  int pageId;
+  PopularFoodDetail({super.key, required this.pageId});
 
   @override
   Widget build(BuildContext context) {
+    var product =
+        Get.find<PopularProductController>().popularProductList[pageId];
+   
+    RegExp exp = RegExp(r"<[^>]*>", multiLine: true, caseSensitive: true);
+    String parsedText = product.summary!.replaceAll(exp, ' ');
+
     return Scaffold(
       body: Stack(
         children: [
@@ -26,8 +37,8 @@ class PopularFoodDetail extends StatelessWidget {
               decoration: BoxDecoration(
                 image: DecorationImage(
                     fit: BoxFit.cover,
-                    image: AssetImage(
-                      "assets/image/travel2.png",
+                    image: NetworkImage(
+                      product.image!,
                     )),
               ),
             ),
@@ -40,7 +51,11 @@ class PopularFoodDetail extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                AppIcon(icon: Icons.arrow_back_ios),
+                GestureDetector(
+                    onTap: () {
+                      Get.to(() => MainTravelPage());
+                    },
+                    child: AppIcon(icon: Icons.arrow_back_ios)),
                 AppIcon(icon: Icons.shopping_cart_outlined),
               ],
             ),
@@ -65,15 +80,16 @@ class PopularFoodDetail extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const AppColumn(text: "Popular Food !"),
+                  AppColumn(
+                      text: product.title!,
+                      cookingMinutes: product.cookingMinutes!,
+                      price: product.pricePerServing!),
                   SizedBox(height: Dimensions.height20),
                   BigText(text: "Introduce"),
                   SizedBox(height: Dimensions.height20),
-                  const Expanded(
+                  Expanded(
                       child: SingleChildScrollView(
-                          child: ExpandableTextWidget(
-                              text:
-                                  "This is the description of the recipe you have chosen enjoy! This is the description of the recipe you have chosen enjoy! This is the description of the recipe you have Chosen enjoy! This is the description of the recipe you have chosen enjoy! This is the description of the recipe you have chosen enjoy! This is the description of the recipe you have Chosen enjoy! This is the description of the recipe you have chosen enjoy! This is the description of the recipe you have chosen enjoy! This is the description of the recipe you have Chosen enjoy! This is the description of the recipe you have chosen enjoy! This is the description of the recipe you have Chosen enjoy! This is the description of the recipe you have chosen enjoy! This is the description of the recipe you have chosen enjoy! This is the description of the recipe you have Chosen enjoy!")))
+                          child: ExpandableTextWidget(text: parsedText)))
                 ],
               ),
             ),
@@ -129,7 +145,7 @@ class PopularFoodDetail extends StatelessWidget {
                   color: Colors.green[300]),
               child: BigText(
                   size: Dimensions.font16,
-                  text: "\$10 | Add to Cart",
+                  text: "\$${product.pricePerServing} | Add to Cart",
                   color: Colors.white),
             ),
           ],

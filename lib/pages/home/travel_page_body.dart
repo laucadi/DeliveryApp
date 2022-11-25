@@ -1,6 +1,8 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hello_world/models/products_model.dart';
+import 'package:flutter_hello_world/pages/food/popular_food_details.dart';
+import 'package:flutter_hello_world/routes/route_helper.dart';
 import 'package:flutter_hello_world/utils/app_constant.dart';
 import 'package:flutter_hello_world/utils/dimensions.dart';
 import 'package:flutter_hello_world/widgets/big_text.dart';
@@ -44,24 +46,24 @@ class _TravelPageBodyState extends State<TravelPageBody> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        //slider
+        // ------------- Slider Container -------------------- //
         GetBuilder<PopularProductController>(builder: (popularProducts) {
-          return Container(
-            height: Dimensions.pageView,
-            child: GestureDetector(
-              onTap: () {
-                //Get.to(()=>)
-              },
-              child: PageView.builder(
-                  controller: pageController,
-                  itemCount: popularProducts.popularProductList.length,
-                  itemBuilder: (context, position) {
-                    return _buildPageItem(
-                        position, popularProducts.popularProductList[position]);
-                  }),
-            ),
-          );
+          return popularProducts.isLoaded
+              ? Container(
+                  height: Dimensions.pageView,
+                    child: PageView.builder(
+                      controller: pageController,
+                      itemCount: popularProducts.popularProductList.length,
+                      itemBuilder: (context, position) {
+                        return _buildPageItem(position,
+                          popularProducts.popularProductList[position]);
+                    }),
+                  )
+                : const CircularProgressIndicator(
+                  color: Colors.blueAccent,
+                );
         }),
+        // --------------------- Dots Slider ---------------------- //
         GetBuilder<PopularProductController>(builder: (popularProducts) {
           return DotsIndicator(
             dotsCount: popularProducts.popularProductList.isEmpty
@@ -78,9 +80,7 @@ class _TravelPageBodyState extends State<TravelPageBody> {
             ),
           );
         }),
-        //puntos slider
-
-        //Populares
+        // --------------------- Popular Text -------------------- //
         SizedBox(
           height: Dimensions.height30,
         ),
@@ -99,93 +99,97 @@ class _TravelPageBodyState extends State<TravelPageBody> {
             ],
           ),
         ),
-        //lista de lugares
+        // --------------------- Healthy List Builder --------------------- //
         GetBuilder<HealthyProductController>(builder: (healthyProduct) {
           return ListView.builder(
               physics: NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               itemCount: healthyProduct.healthyProductList.length,
               itemBuilder: (context, index) {
-                return Container(
-                  margin: EdgeInsets.only(
-                    left: Dimensions.width20,
-                    right: Dimensions.width20,
-                    bottom: Dimensions.height10,
-                  ),
-                  child: Row(children: [
-                    Container(
-                      width: Dimensions.listViewImgSize,
-                      height: Dimensions.listViewImgSize,
-                      decoration: BoxDecoration(
-                        borderRadius:
-                            BorderRadius.circular(Dimensions.radius20),
-                        color: Colors.white38,
-                        image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: NetworkImage(healthyProduct
-                                .healthyProductList[index].image!)),
+                return GestureDetector(
+                    onTap: () {
+                      // TODO: CREATE HEALTHY FOOD UI
+                      Get.toNamed(RouteHelper.getHealthyFood());
+                    },
+                    child: Container(
+                      margin: EdgeInsets.only(
+                        left: Dimensions.width20,
+                        right: Dimensions.width20,
+                        bottom: Dimensions.height10,
                       ),
-                    ),
-                    //text container
-                    Expanded(
-                      child: Container(
-                        height: 100,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(Dimensions.radius20),
-                              bottomRight:
-                                  Radius.circular(Dimensions.radius20)),
-                          color: Colors.white,
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                              left: Dimensions.width10,
-                              right: Dimensions.width10),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              BigText(
-                                  text: healthyProduct
-                                      .healthyProductList[index].title!),
-                              SizedBox(
-                                height: Dimensions.height10,
-                              ),
-                              SmallText(
-                                  text:
-                                      "Ven a disfrutar de un dia de sol y diversion..."),
-                              SizedBox(
-                                height: Dimensions.height10,
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  IconAndTextWidget(
-                                    icon: Icons.attach_money,
-                                    text: healthyProduct
-                                        .healthyProductList[index]
-                                        .pricePerServing!
-                                        .toDouble(),
-                                    iconColor: Colors.green,
-                                  ),
-                                  IconAndTextWidget(
-                                    icon: Icons.location_on,
-                                    text: healthyProduct
-                                        .healthyProductList[index]
-                                        .readyInMinutes!
-                                        .toDouble(),
-                                    iconColor: Colors.lightBlue,
-                                  ),
-                                ],
-                              )
-                            ],
+                      child: Row(children: [
+                        Container(
+                          width: Dimensions.listViewImgSize,
+                          height: Dimensions.listViewImgSize,
+                          decoration: BoxDecoration(
+                            borderRadius:
+                                BorderRadius.circular(Dimensions.radius20),
+                            color: Colors.white38,
+                            image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: NetworkImage(healthyProduct
+                                    .healthyProductList[index].image!)),
                           ),
                         ),
-                      ),
-                    )
-                  ]),
-                );
+                        //text container
+                        Expanded(
+                          child: Container(
+                            height: 120,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                  topRight:
+                                      Radius.circular(Dimensions.radius20),
+                                  bottomRight:
+                                      Radius.circular(Dimensions.radius20)),
+                              color: Colors.white,
+                            ),
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                  left: Dimensions.width10,
+                                  right: Dimensions.width10),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  BigText(
+                                      text: healthyProduct
+                                          .healthyProductList[index].title!),
+                                  SizedBox(
+                                    height: Dimensions.height10,
+                                  ),
+                                  SmallText(text: "Awesome Healthy Food"),
+                                  SizedBox(
+                                    height: Dimensions.height10,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      IconAndTextWidget(
+                                        icon: Icons.attach_money,
+                                        text: healthyProduct
+                                            .healthyProductList[index]
+                                            .pricePerServing!
+                                            .toDouble(),
+                                        iconColor: Colors.green,
+                                      ),
+                                      IconAndTextWidget(
+                                        icon: Icons.location_on,
+                                        text: healthyProduct
+                                            .healthyProductList[index]
+                                            .readyInMinutes!
+                                            .toDouble(),
+                                        iconColor: Colors.lightBlue,
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        )
+                      ]),
+                    ));
               });
         }),
       ],
@@ -193,7 +197,7 @@ class _TravelPageBodyState extends State<TravelPageBody> {
   }
 
   Widget _buildPageItem(int index, ProductsModel popularProduct) {
-    Matrix4 matrix = new Matrix4.identity();
+    Matrix4 matrix = Matrix4.identity();
     if (index == _currPageValue.floor()) {
       var currScale = 1 - (_currPageValue - index) * (1 - _scaleFactor);
       var currTrans = _height * (1 - currScale) / 2;
@@ -221,7 +225,12 @@ class _TravelPageBodyState extends State<TravelPageBody> {
       transform: matrix,
       child: Stack(
         children: [
-          Container(
+          GestureDetector(
+            onTap: (){
+
+              Get.toNamed(RouteHelper.getPopularFood(index));
+            },
+            child: Container(
             height: Dimensions.pageViewContainer,
             margin: EdgeInsets.only(
                 left: Dimensions.width10, right: Dimensions.width10),
@@ -231,6 +240,7 @@ class _TravelPageBodyState extends State<TravelPageBody> {
                 image: DecorationImage(
                     fit: BoxFit.cover,
                     image: NetworkImage(popularProduct.image!))),
+          )
           ),
           Align(
             alignment: Alignment.bottomCenter,
@@ -292,8 +302,8 @@ class _TravelPageBodyState extends State<TravelPageBody> {
                             iconColor: Colors.green,
                           ),
                           IconAndTextWidget(
-                            icon: Icons.location_on,
-                            text: popularProduct.cookingMinutes,
+                            icon: Icons.access_time_rounded,
+                            text: '${popularProduct.cookingMinutes} min',
                             iconColor: Colors.lightBlue,
                           ),
                         ],

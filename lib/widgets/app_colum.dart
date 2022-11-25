@@ -6,7 +6,10 @@ import 'small_text.dart';
 
 class AppColumn extends StatelessWidget {
   final String text;
-  const AppColumn({super.key, required this.text});
+  int cookingMinutes;
+  double price;   
+
+  AppColumn({super.key, required this.text, required this.cookingMinutes, required this.price});
 
   @override
   Widget build(BuildContext context) {
@@ -41,15 +44,15 @@ class AppColumn extends StatelessWidget {
       ),
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: const [
+        children: [
           IconAndTextWidget(
             icon: Icons.attach_money,
-            text: "Pop.pricePerServing!.toDoubl()",
+            text: price.toString(),
             iconColor: Colors.green,
           ),
           IconAndTextWidget(
             icon: Icons.access_time_rounded,
-            text: "Pop.cookingMinutes",
+            text: cookingMinutes,
             iconColor: Colors.lightBlue,
           ),
         ],

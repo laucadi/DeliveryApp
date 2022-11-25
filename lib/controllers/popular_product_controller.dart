@@ -18,6 +18,7 @@ class PopularProductController extends GetxController {
       _popularProductList.addAll(Product.fromJson(response.body).results);
       _isLoaded = true;
       update();
-    } else {}
+    } else {
+    }
   }
 }
